@@ -68,7 +68,7 @@ class Configuration:
 
         self._configure_logging(config)
 
-        self.interface = 0
+        self.interface = "hci0"
         if 'interface' in config:
             self.interface = config['interface']
 
@@ -236,7 +236,7 @@ class PlantGateway:
     def process_mac(self, sensor_config: SensorConfig):
         """Get data from one Sensor."""
         logging.info('Getting data from sensor %s', sensor_config.get_topic())
-        poller = MiFloraPoller(sensor_config.mac, BluepyBackend)
+        poller = MiFloraPoller(sensor_config.mac, BluepyBackend, adapter = self.config.interface)
         self.announce_sensor(sensor_config)
         self._publish(sensor_config, poller)
 
